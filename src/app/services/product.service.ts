@@ -14,9 +14,17 @@ export class ProductService {
   private categoryUrl = 'http://localhost:8080/api/product-category';
   constructor(private httpClient: HttpClient) { }
 
-  getProductsList(categoryId:number): Observable<Product[]>{
-    const categoryUrl = `${this.baseUrl}/search/findByCategoryId?id=${categoryId}`
+  getProductsList(categoryId: number): Observable<Product[]> {
+    const categoryUrl = `${this.baseUrl}/search/findByCategoryId?id=${categoryId}`;
     return this.getProducts(categoryUrl);
+  }
+
+  getProductsListPagination(page: number,
+    pageSize: number,
+    categoryId: number): Observable<GetResponseProducts> {
+    const categoryUrl = `${this.baseUrl}/search/findByCategoryId?id=${categoryId}`
+      + `&page=${page}&size=${pageSize}`;
+    return this.httpClient.get<GetResponseProducts>(categoryUrl);
   }
 
   getProductCategories(): Observable<ProductCategory[]> {
@@ -26,9 +34,18 @@ export class ProductService {
     );
   }
 
-  searchProducts(searchString: string):Observable<Product[]> {
+  searchProducts(searchString: string): Observable<Product[]> {
     const searchUrl = `${this.baseUrl}/search/findByNameContaining?searchString=${searchString}`;
     return this.getProducts(searchUrl);
+  }
+
+  searchProductsListPagination(searchString: string,
+    page: number,
+    pageSize: number): Observable<GetResponseProducts> {
+    //Search with pagination
+    const categoryUrl = `${this.baseUrl}/search/findByNameContaining?searchString=${searchString}`
+      + `&page=${page}&size=${pageSize}`;
+    return this.httpClient.get<GetResponseProducts>(categoryUrl);
   }
 
   private getProducts(searchUrl: string): Observable<Product[]> {
@@ -36,17 +53,23 @@ export class ProductService {
       map(response => response._embedded.products)
     );
   }
-  
+
   getProduct(productId: number): Observable<Product> {
     const productUrl = `${this.baseUrl}/${productId}`;
     return this.httpClient.get<Product>(productUrl);
-  }  
-  
+  }
+
 }
 
 interface GetResponseProducts {
   _embedded: {
     products: Product[];
+  }
+  page: {
+    size: number,
+    totalElements: number,
+    totalPgaes: number,
+    number: number
   }
 }
 
