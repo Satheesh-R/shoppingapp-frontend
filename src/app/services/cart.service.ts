@@ -57,6 +57,25 @@ export class CartService {
     //logging cart data
     this.logCartData(totalPriceofItems,totalQuantiyofitems);
   }
+  decrementQuantity(cartItem: CartItem) {
+    cartItem.quantity--;
+    if(cartItem.quantity == 0){
+      this.remove(cartItem);
+    }
+    else{
+      this.computeTotalPriceAndQuantity();
+    }
+  }
+
+  remove(cartItem:CartItem){
+    //get index of item in the array
+    const itemIndex = this.cartItems.findIndex(tempCartItem => tempCartItem.id === cartItem.id);
+    if(itemIndex > -1){
+      this.cartItems.splice(itemIndex,1);
+      this.computeTotalPriceAndQuantity();
+    }
+  }
+
   logCartData(totalPriceofItems: number, totalQuantiyofitems: number) {
     for(let cartItem of this.cartItems){
       const subTotalPrice = cartItem.unitPrice * cartItem.quantity;

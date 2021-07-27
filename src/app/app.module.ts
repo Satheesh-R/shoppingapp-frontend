@@ -11,6 +11,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ProductService } from './services/product.service';
+import { CartDetailsComponent } from './components/cart-details/cart-details.component';
 
 
 
@@ -20,6 +21,7 @@ const routes: Routes = [
   {path: 'products/:id', component: ProductDetailsComponent},
   {path: 'category', component: ProductListComponent},
   {path: 'products', component: ProductListComponent},
+  {path: 'cart', component: CartDetailsComponent},
   {path: '', redirectTo: '/products', pathMatch: 'full'},
   {path: '**', redirectTo:'/products', pathMatch: 'full'}
 ];
@@ -30,7 +32,8 @@ const routes: Routes = [
     ProductCategoryMenuComponent,
     SearchComponent,
     ProductDetailsComponent,
-    CartStatusComponent
+    CartStatusComponent,
+    CartDetailsComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
