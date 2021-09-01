@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Country } from 'src/app/common/country';
 import { State } from 'src/app/common/state';
+import { CartService } from 'src/app/services/cart.service';
 import { FormService } from 'src/app/services/form.service';
 import { CustomValidators } from 'src/app/validators/custom-validators';
 
@@ -13,7 +14,8 @@ import { CustomValidators } from 'src/app/validators/custom-validators';
 export class CheckoutComponent implements OnInit {
 
   constructor(private formBuillder: FormBuilder,
-    private formService:FormService) { }
+    private formService:FormService,
+    private cartService:CartService) { }
  
   checkoutFormGroup: FormGroup;
   totalPrice: number = 0;
@@ -69,8 +71,9 @@ export class CheckoutComponent implements OnInit {
     this.formService.getCountries().subscribe(
       data => this.countries = data
     );
+    this.reviewCartDetails();
   }
-
+  
   onSubmit(){
     console.log("Form Data: ")
     console.log(this.checkoutFormGroup.get('customer').value);
@@ -126,7 +129,14 @@ export class CheckoutComponent implements OnInit {
       }
     )
   }
-
+  reviewCartDetails() {
+    this.cartService.totalPrice.subscribe(
+      (data) => this.totalPrice = data
+    );
+    this.cartService.totalQuantity.subscribe(
+      (data) => this.totalQuantity = data
+    );
+  }
   get firstName(){return this.checkoutFormGroup.get('customer.firstName');}
   get lastName(){return this.checkoutFormGroup.get('customer.lastName');}
   get email(){return this.checkoutFormGroup.get('customer.email');}
