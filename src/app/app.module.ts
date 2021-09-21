@@ -16,12 +16,13 @@ import { CheckoutComponent } from './components/checkout/checkout.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './components/login/login.component';
 import { LoginStatusComponent } from './components/login-status/login-status.component';
-import{OKTA_CONFIG,OktaAuthModule,OktaCallbackComponent} from '@okta/okta-angular';
+import{OKTA_CONFIG,OktaAuthModule,OktaCallbackComponent, OktaAuthGuard} from '@okta/okta-angular';
 
 import appConfig from './config/app-config';
+import { MembersPageComponent } from './components/members-page/members-page.component';
 
 const oktaConfig = Object.assign({
-  onAuthRequired: (injector) =>{
+  onAuthRequired: (oktaAuth, injector) =>{
     const router = injector.get(Router);
 
     //Redirect the user to login page
@@ -32,6 +33,7 @@ const oktaConfig = Object.assign({
 const routes: Routes = [
   {path: 'login/callback', component:OktaCallbackComponent},
   {path:'login', component:LoginComponent},
+  {path: 'members', component:MembersPageComponent, canActivate: [OktaAuthGuard]},
   {path: 'search/:keyword', component: ProductListComponent},
   {path: 'category/:id', component: ProductListComponent},
   {path: 'products/:id', component: ProductDetailsComponent},
@@ -53,7 +55,8 @@ const routes: Routes = [
     CartDetailsComponent,
     CheckoutComponent,
     LoginComponent,
-    LoginStatusComponent
+    LoginStatusComponent,
+    MembersPageComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
