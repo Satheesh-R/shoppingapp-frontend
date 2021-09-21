@@ -10,8 +10,19 @@ export class CartService {
   cartItems:CartItem[] = [];
   totalPrice:BehaviorSubject<number> = new BehaviorSubject<number>(0);
   totalQuantity:BehaviorSubject<number> = new BehaviorSubject<number>(0);
+
+  storage: Storage = sessionStorage;
+  //storage: Storage = localStorage;
   
-  constructor() { }
+  constructor() { 
+    //read data from storage
+    let data = JSON.parse(this.storage.getItem('cartItems'));
+    if(data != null){
+      this.cartItems = data;
+      //compute totals based on the data read from Web AI storage
+      this.computeTotalPriceAndQuantity();
+    }
+  }
 
   addToCart(cartItem: CartItem){
     // check if already have a item in cart
@@ -53,10 +64,16 @@ export class CartService {
     //publish the new values, all subscribers will be able to receive it
     this.totalPrice.next(totalPriceofItems);
     this.totalQuantity.next(totalQuantiyofitems);
-
+    //persist the cart data to web API storage
+    this.persistCartItems();
     //logging cart data
     this.logCartData(totalPriceofItems,totalQuantiyofitems);
   }
+
+  persistCartItems(){
+    this.storage.setItem('cartItems',JSON.stringify(this.cartItems));
+  }
+
   decrementQuantity(cartItem: CartItem) {
     cartItem.quantity--;
     if(cartItem.quantity == 0){
