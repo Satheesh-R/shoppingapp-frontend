@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { OrderHistory } from '../common/order-history';
 
 @Injectable({
@@ -10,7 +11,7 @@ export class OrderHistoryService {
 
   constructor(private httpClient:HttpClient) { }
 
-  private orderUrl = 'http://localhost:8080/api/orders';
+  private orderUrl = environment.shoppingApiUrl+'/orders';
 
   getOrderHistory(email:string):Observable<GetOrderHistoryResponse>{
     //build url based on custmer url
