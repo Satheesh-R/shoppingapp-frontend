@@ -5,6 +5,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 ## Requirements
 - [NodeJS](https://nodejs.org/en/)
 - [Okta Devloper Account](https://www.okta.com/free-trial/)
+- [Shopping Backend](https://github.com/Satheesh-R/shopping-backend)
 
 ### Reference Documentation
 For further reference, please consider the following sections:
