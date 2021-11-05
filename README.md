@@ -2,9 +2,21 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.1.7.
 
+## Requirements
+- [NodeJS](https://nodejs.org/en/)
+- [Okta Devloper Account](https://www.okta.com/free-trial/)
+
+### Reference Documentation
+For further reference, please consider the following sections:
+
+* [Angular documentation](https://angular.io/docs)
+* [Okta documentation](https://developer.okta.com/code/angular/)
+
 ## Development server
 
 Run `npm start` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+
+Run `npm start -- --configuration=qa` for running application in QA configurtion.
 
 ## Code scaffolding
 
